@@ -9,10 +9,10 @@ from django.contrib.auth.decorators import login_required
 
 
 def home(request):
-        return render(request, "homepage.html")
+    return render(request, "homepage.html")
 
 # def user_login(request):
-#         return render(request, "login.html")
+#     return render(request, "login.html")
 
 # def user_register(request):
 #     return render(request, "register.html")
