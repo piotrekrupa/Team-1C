@@ -1,9 +1,33 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login, logout
+
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
 def home(request):
-    return HttpResponse("Welcome to Internship Hub")
+        return render(request, "homepage.html")
 
+# def user_login(request):
+#         return render(request, "login.html")
+
+# def user_register(request):
+#     return render(request, "register.html")
+
+# @login_required
+# def user_logout(request):
+#     logout(request)
+#     return redirect(reverse("forum:home"))
+
+# @login_required
+# def account(request):
+#     return render(request, "account.html")
+
+# def internships(request):
+#     return render(request, "internships.html")
+
+# def jobs(request):
+#     return render(request, "jobs.html")
