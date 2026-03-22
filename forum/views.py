@@ -1,4 +1,5 @@
 from .models import Profile
+from .forms import ListingForm
 from django.contrib.auth.models import User
 
 from django.shortcuts import render
@@ -15,6 +16,16 @@ from django.urls import reverse
 def home(request):
     return render(request, "WAD2/homepage.html")
 
+def upload(request):
+    if request.method == 'POST':
+        form = ListingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('forum:home')
+    else:
+        form = ListingForm()
+    return render(request, "WAD2/upload.html", {'form': form})
+
 def user_login(request):
     return render(request, "WAD2/login.html")
 
@@ -25,10 +36,6 @@ def user_register(request):
 # def user_logout(request):
 #     logout(request)
 #     return redirect(reverse("forums:home"))
-
-# @login_required
-# def account(request):
-#     return render(request, "WAD2/account.html")
 
 def internships(request):
     return render(request, "WAD2/internships.html")
@@ -51,3 +58,5 @@ def profile_user(request, username):
         return HttpResponse("Profile not found", status=404)
     
     return render(request, "WAD2/profile_user.html", {"profile": profile})
+
+
