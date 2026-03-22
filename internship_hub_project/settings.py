@@ -15,6 +15,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 # Quick-start development settings - unsuitable for production
@@ -53,12 +54,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "internship_hub_project.urls"
 
-TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
-
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [TEMPLATE_DIR],
+        "DIRS": [TEMPLATE_DIR, ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
