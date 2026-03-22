@@ -1,3 +1,6 @@
+from .models import Profile
+from django.contrib.auth.models import User
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -32,3 +35,19 @@ def internships(request):
 
 def jobs(request):
     return render(request, "WAD2/jobs.html")
+
+def profile_me(request):
+    if not request.user.is_authenticated:
+        return redirect('forum:home')
+    profile = Profile.objects.get(user=request.user)
+    
+    return render(request, "WAD2/profile_me.html", {"profile": profile})
+
+def profile_user(request, username):
+    try:
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        return HttpResponse("Profile not found", status=404)
+    
+    return render(request, "WAD2/profile_user.html", {"profile": profile})

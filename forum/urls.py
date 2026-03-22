@@ -15,4 +15,6 @@ urlpatterns = [
     # path("jobs/", views.job_list, name="jobs"),
     path("internships/<str:internship_name>/", views.internship, name="internship"),
     # path("jobs/<str:job_name>/", views.job, name="job"),
+    path('profile/me/', views.profile_me, name='profile_me'),
+    path('profile/<str:username>/', views.profile_user, name='profile_user'),
 ]
