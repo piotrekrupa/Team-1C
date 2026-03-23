@@ -57,12 +57,12 @@ def job_list(request):
     vacancies = Vacancy.objects.filter(job_type='Job')
     return render(request, "WAD2/jobs.html", {'vacancies': vacancies})
 
-def internship(request, internship_name):
-    vacancy = get_object_or_404(Vacancy, slug=internship_name)
+def internship(request, internship_name_slug):
+    vacancy = get_object_or_404(Vacancy, slug=internship_name_slug)
     return render(request, 'WAD2/internship.html', {'vacancy': vacancy})
 
-def job(request, job_name):
-    vacancy = get_object_or_404(Vacancy, slug=job_name)
+def job(request, job_name_slug):
+    vacancy = get_object_or_404(Vacancy, slug=job_name_slug)
     return render(request, "WAD2/job.html", {'vacancy': vacancy})
 
 def show_company(request, company_name_slug):
