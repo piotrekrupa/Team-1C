@@ -51,9 +51,3 @@ class Vacancy(models.Model):
 
     def __str__(self):
         return self.title
-    
-class Review(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment = models.TextField()
-    rating = models.IntegerField(default=3)
