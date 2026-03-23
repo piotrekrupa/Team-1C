@@ -51,3 +51,11 @@ class Vacancy(models.Model):
 
     def __str__(self):
         return self.title
+
+class Listing(models.Model):
+    title = models.CharField(max_length=128)
+    company = models.CharField(max_length=128)
+    description = models.TextField()
+
+    def __str__(self):
+        return f"{self.title} at {self.company}"

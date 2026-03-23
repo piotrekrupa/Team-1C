@@ -1,13 +1,25 @@
-{% extends 'base.html' %}
+{% extends 'WAD2/base.html' %}
 
 {% block title_block %}
-    Welcome to Forums this is the homepage!
+    Welcome to Forums
 {% endblock %}
 
 {% block body_block %}
-    <div class="container mt-5">
-        <h1>Welcome to Forums!</h1>
-        <p>This is the homepage of our website. Here you can find the latest news, updates, and discussions about various topics. Feel free to explore and join the conversation!</p>
-        
+    <div class="container mt-5 text-center">
+        <h1 class="display-4 mb-3">Welcome to Forums!</h1>
+        <p class="lead text-muted mb-5">
+            This is the homepage of our website. Here you can find the latest Internships, or Job listings to set you up or proppell you into the transition from graduate to professional. Feel free to share and upload any that you have found to help out fellow students!
+        </p>
+        <p class="lead text-muted mb-5">
+            Which would you like to look for?
+        </p>
+        <div class="d-flex justify-content-center gap-4">
+            <a href="{% url 'forum:internships' %}" class="btn btn-primary btn-lg px-5 shadow-sm">
+                Internships
+            </a>
+            <a href="{% url 'forum:jobs' %}" class="btn btn-success btn-lg px-5 shadow-sm">
+                Jobs
+            </a>
+        </div>
     </div>
 {% endblock %}
