@@ -1,0 +1,20 @@
+{% extends 'WAD2/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Available Internships</h1>
+    {% if vacancies %}
+        <ul>
+            {% for vacancy in vacancies %}
+                <li>
+                    <strong><a href="{% url 'forum:internship' vacancy.slug %}">
+                        {{vacancy.title}}</a></strong><br />
+                    At: {{vacancy.company.name}}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no internships..</p>
+    {% endif %}
+</div>
+{% endblock %}
