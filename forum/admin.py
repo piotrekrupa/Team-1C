@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Profile
-from .models import Company, Vacancy, Review
+from .models import Company, Vacancy
 
 
 # Register your models here.
@@ -15,4 +15,3 @@ class VacancyAdmin(admin.ModelAdmin):
 
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Vacancy, VacancyAdmin)
-admin.site.register(Review)

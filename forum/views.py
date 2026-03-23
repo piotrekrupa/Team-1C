@@ -1,5 +1,5 @@
 from .models import Profile
-from .models import Company, Vacancy, Review
+from .models import Company, Vacancy
 from .forms import ListingForm, SignUpForm
 from django.contrib.auth.models import User
 
@@ -56,12 +56,6 @@ def user_register(request):
 # def user_logout(request):
 #     logout(request)
 #     return redirect(reverse("forums:home"))
-
-def internships(request):
-    return render(request, "WAD2/internships.html")
-
-def jobs(request):
-    return render(request, "WAD2/jobs.html")
 
 def profile_me(request):
     if not request.user.is_authenticated:

@@ -1,5 +1,5 @@
 {% extends 'WAD2/base.html' %}
-{% block content %}
+{% block body_block %}
 <div class="container mt-5">
     <h1>Internship: {{ vacancy.title }}</h1>
     <h4>At <a href="{% url 'forum:show_company' vacancy.company.slug %}">
