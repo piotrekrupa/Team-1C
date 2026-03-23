@@ -1,5 +1,13 @@
 {% extends 'WAD2/base.html' %}
 
-{% block title_block %}
-    Welcome to Forums
+{% block body_block %}
+<h2>Login</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+</form>
+
+<p>Don't have an account? <a href="{% url 'forum:register' %}">Register</a></p>
 {% endblock %}

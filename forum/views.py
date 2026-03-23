@@ -1,5 +1,5 @@
 from .models import Profile
-from .forms import ListingForm
+from .forms import ListingForm, SignUpForm
 from django.contrib.auth.models import User
 
 from django.shortcuts import render
@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
@@ -27,10 +28,28 @@ def upload(request):
     return render(request, "WAD2/upload.html", {'form': form})
 
 def user_login(request):
-    return render(request, "WAD2/login.html")
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("forum:home")
+    else:
+        form = AuthenticationForm()
+
+    return render(request, "WAD2/login.html", {"form": form})
+
 
 def user_register(request):
-    return render(request, "WAD2/register.html")
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("forum:login")
+    else:
+        form = SignUpForm()
+
+    return render(request, "WAD2/register.html", {"form": form})
 
 # @login_required
 # def user_logout(request):
