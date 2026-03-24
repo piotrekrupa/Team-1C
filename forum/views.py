@@ -25,13 +25,9 @@ def upload(request):
         form = VacancyForm(request.POST)
         if form.is_valid():
             form.save()
-            if vacancy.job_type.lower() == 'internship':
-                return redirect('forum:internship', internship_name=vacancy.slug)
-            else:
-                return redirect('forum:job', job_name=vacancy.slug)
+            return redirect('forum:home')
     else:
         form = VacancyForm()
-
     return render(request, "WAD2/upload.html", {'form': form})
 
 def user_login(request):

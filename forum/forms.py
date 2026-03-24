@@ -36,7 +36,6 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ["username", "email", "password1", "password2"]
 
-
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
