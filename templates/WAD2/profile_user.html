@@ -1,0 +1,29 @@
+{% extends 'WAD2/base.html' %}
+{%load static %}
+
+{% block body_block %}
+<div class="container mt-4">
+    <h2 class="text-center">{{ profile.user.username }}'s Profile</h2>
+
+    <hr>
+
+    <p><strong>Name:</strong> {{ profile.full_name }}</p>
+    
+    <h4>Profile Picture</h4>
+
+    {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" width="200">
+    {% else %}
+        <p>No profile picture uploaded.</p>
+    {% endif %}
+
+    <br><br>
+
+    <h4>CV</h4>
+    {% if profile.cv %}
+        <a href="{{ profile.cv.url }}" target="_blank">Download CV</a>
+    {% else %}
+        <p>No CV uploaded.</p>
+    {% endif %}
+</div>
+{% endblock %}

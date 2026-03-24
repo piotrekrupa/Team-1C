@@ -1,0 +1,23 @@
+{% extends 'WAD2/base.html' %}
+
+{% block title_block %}
+    Upload a listing
+{% endblock %}
+
+{% block body_block %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">Upload a New Job or Internship</h2>
+            
+            <div class="card shadow-sm p-4">
+                <form method="post" action="{% url 'forum:upload' %}">
+                    {% csrf_token %}
+                    
+                    {{ form.as_p }} <button type="submit" class="btn btn-primary mt-3">Submit Listing</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
