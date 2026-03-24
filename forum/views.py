@@ -60,7 +60,20 @@ def user_register(request):
 def profile_me(request):
     if not request.user.is_authenticated:
         return redirect('forum:home')
-    profile = Profile.objects.get(user=request.user)
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        if 'profile_picture' in request.FILES:
+            profile.profile_picture = request.FILES['profile_picture']
+            profile.save()
+            return redirect('forum:profile_me')
+        
+        if 'cv' in request.FILES:
+            uploaded_cv = request.FILES['cv']
+            if uploaded_cv.name.endswith('.pdf'):
+                profile.cv = uploaded_cv
+                profile.save()
+            return redirect('forum:profile_me')
     
     return render(request, "WAD2/profile_me.html", {"profile": profile})
 

@@ -12,6 +12,8 @@
     <p><strong>Email:</strong> {{ profile.user.email }}</p>
     <p><strong>Date of Birth:</strong> {{ profile.date_of_birth }}</p>
 
+    <hr>
+
     <h4>Profile Picture</h4>
 
     {% if profile.profile_picture %}
@@ -20,13 +22,29 @@
         <p>No profile picture uploaded.</p>
     {% endif %}
 
-    <br><br>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="profile_picture" accept="image/*">
+        <button type="submit" class="btn btn-primary mt-2">Upload New Picture</button>
+    </form>
+
+    <hr>
 
     <h4>CV</h4>
+
     {% if profile.cv %}
-        <a href="{{ profile.cv.url }}" target="_blank">Download CV</a>
+        <iframe src="{{ profile.cv.url }}" width="100%" height="1150px"></iframe>
     {% else %}
         <p>No CV uploaded.</p>
     {% endif %}
+
+    <br><br>
+
+    <p class="text-muted">Only PDF files are allowed.</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="cv" accept="application/pdf">
+        <button type="submit" class="btn btn-primary mt-2">Upload New CV</button>
+    </form>
 </div>
 {% endblock %}
