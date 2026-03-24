@@ -7,7 +7,13 @@
 
     <hr>
 
-    <p><strong>Name:</strong> {{ profile.full_name }}</p>
+    <p><strong>Name:</strong> 
+        {% if profile.full_name %}
+            {{ profile.full_name }}
+        {% else %}
+            {{profile.user.username}}
+        {% endif %}
+    </p>
     
     <h4>Profile Picture</h4>
 
