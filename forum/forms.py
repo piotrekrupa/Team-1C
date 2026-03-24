@@ -1,5 +1,7 @@
 from django import forms
 from .models import Listing
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 class ListingForm(forms.ModelForm):
     class Meta:
@@ -15,3 +17,10 @@ class ListingForm(forms.ModelForm):
             'application_url': forms.URLInput(attrs={'class': 'form-control custom-input', 'placeholder': 'https://...'}),
             'description': forms.Textarea(attrs={'class': 'form-control custom-input', 'rows': 3}),
         }
+
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "password1", "password2"]

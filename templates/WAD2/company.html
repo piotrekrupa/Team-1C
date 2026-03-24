@@ -1,0 +1,44 @@
+{% extends 'WAD2/base.html' %} 
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if company %}
+        {{company.name}}
+        <h1>{{company.name }}</h1>
+        <div>
+            {% if company.logo %}
+                <img src="{{company.logo.url}}" alt="{{company.name}} Logo" />
+            {% endif %}
+            <p>{{company.description}}</p>
+            <a href="{{company.website}}">Visit Website</a>
+            <div id="map" style="height: 200px; width: 100%;"></div>
+        </div>
+
+
+        <div class="mt-5">
+            <h2>Current Vacancies</h2>
+            {% if vacancies %}
+                <ul>
+                    {%for vacancy in vacancies%}
+                        <li>
+                            <h3><a href="{% url 'forum:show_vacancy' vacancy.slug %}">{{ vacancy.title }}</a></h3>
+                            <p>
+                                <strong>Type:</strong> {{ vacancy.job_type }}
+                                <strong>Salary: </strong> {{ vacancy.salary }}
+                                {% if vacancy.deadline %}
+                                    <em>Apply by: {{ vacancy.deadline }}</em>
+                                {% endif %}
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No jobs available right now..</p>
+            {% endif %}
+        </div>
+    {% else %}
+        <h2>The company doesn't exist.</h2>
+    {% endif %}
+</div>
+{% endblock %}
