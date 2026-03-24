@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="container mt-5 text-center">
+    <div class="text-center mt-5 mb-4 px-3">
         <h1 class="display-4 mb-3">Welcome to Forums!</h1>
         <p class="lead text-muted mb-5">
             This is the homepage of our website. Here you can find the latest Internships, or Job listings to set you up or proppell you into the transition from graduate to professional. Feel free to share and upload any that you have found to help out fellow students!
@@ -13,12 +13,16 @@
         <p class="lead text-muted mb-5">
             Which would you like to look for?
         </p>
-        <div class="d-flex justify-content-center gap-4">
-            <a href="{% url 'forum:internships' %}" class="btn btn-primary btn-lg px-5 shadow-sm">
-                Internships
+
+        <div class="row g-0"> <div class="col-12 col-md-6 split-wrapper">
+            <a href="{% url 'forum:internships' %}" class="split-card internships-card">
+                <span class="card-text">internships</span>
             </a>
-            <a href="{% url 'forum:jobs' %}" class="btn btn-success btn-lg px-5 shadow-sm">
-                Jobs
+        </div>
+        
+        <div class="col-12 col-md-6 split-wrapper">
+            <a href="{% url 'forum:jobs' %}" class="split-card jobs-card">
+                <span class="card-text">jobs</span>
             </a>
         </div>
     </div>

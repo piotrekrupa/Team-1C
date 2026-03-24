@@ -13,8 +13,17 @@ class Profile(models.Model):
         return self.user.username
 
 class Listing(models.Model):
+    JOB_TYPE_CHOICES = [
+        ('entry_level', 'Entry-Level Job'),
+        ('internship', 'Internship'),
+    ]
+
     title = models.CharField(max_length=128)
     company = models.CharField(max_length=128)
+    location = models.CharField(max_length=128, blank=True, null=True) 
+    job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default='internship')
+    deadline_date = models.DateField(blank=True, null=True)
+    application_url = models.URLField(max_length=200, blank=True, null=True)
     description = models.TextField()
 
     def __str__(self):
