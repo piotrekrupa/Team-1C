@@ -52,10 +52,10 @@ def user_register(request):
 
     return render(request, "WAD2/register.html", {"form": form})
 
-# @login_required
-# def user_logout(request):
-#     logout(request)
-#     return redirect(reverse("forums:home"))
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect("forum:home")
 
 def profile_me(request):
     if not request.user.is_authenticated:
@@ -77,19 +77,19 @@ def profile_user(request, username):
 
 
 def internship_list(request):
-    vacancies = Vacancy.objects.filter(job_type='Internship')
+    vacancies = Vacancy.objects.filter(job_type='internship')
     return render(request, 'WAD2/internships.html', {'vacancies': vacancies})
 
 def job_list(request):
-    vacancies = Vacancy.objects.filter(job_type='Job')
+    vacancies = Vacancy.objects.filter(job_type='entry_level')
     return render(request, "WAD2/jobs.html", {'vacancies': vacancies})
 
-def internship(request, internship_name_slug):
-    vacancy = get_object_or_404(Vacancy, slug=internship_name_slug)
+def internship(request, internship_name):
+    vacancy = get_object_or_404(Vacancy, slug=internship_name)
     return render(request, 'WAD2/internship.html', {'vacancy': vacancy})
 
-def job(request, job_name_slug):
-    vacancy = get_object_or_404(Vacancy, slug=job_name_slug)
+def job(request, job_name):
+    vacancy = get_object_or_404(Vacancy, slug=job_name)
     return render(request, "WAD2/job.html", {'vacancy': vacancy})
 
 def show_company(request, company_name_slug):

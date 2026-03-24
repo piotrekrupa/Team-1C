@@ -31,11 +31,15 @@ class Company(models.Model):
         return self.name
 
 class Vacancy(models.Model):
+    JOB_TYPE_CHOICES = [
+        ('entry_level', 'Entry-Level Job'),
+        ('internship', 'Internship'),
+    ]
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     title = models.CharField(max_length=128)
     description = models.TextField()
     industry = models.CharField(max_length=128, blank=True)
-    job_type = models.CharField(max_length=64, default='Internship')
+    job_type = models.CharField(max_length=64, choices=JOB_TYPE_CHOICES, default='Internship')
     salary = models.CharField(max_length=64, blank=True)
     deadline = models.DateField(null=True, blank=True)
     url = models.URLField(blank=True) 
@@ -52,19 +56,3 @@ class Vacancy(models.Model):
     def __str__(self):
         return self.title
 
-class Listing(models.Model):
-    JOB_TYPE_CHOICES = [
-        ('entry_level', 'Entry-Level Job'),
-        ('internship', 'Internship'),
-    ]
-
-    title = models.CharField(max_length=128)
-    company = models.CharField(max_length=128)
-    location = models.CharField(max_length=128, blank=True, null=True) 
-    job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default='internship')
-    deadline_date = models.DateField(blank=True, null=True)
-    application_url = models.URLField(max_length=200, blank=True, null=True)
-    description = models.TextField()
-
-    def __str__(self):
-        return f"{self.title} at {self.company}"
