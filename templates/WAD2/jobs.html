@@ -7,7 +7,7 @@
         <ul>
             {% for vacancy in vacancies %}
                 <li>
-                    <strong><a href="{% url 'forum:job' vacancy.slug %}">{{ vacancy.title }}</a></strong><br />
+                    <strong><a href="{% url 'forum:vacancy' vacancy.slug %}">{{ vacancy.title }}</a></strong><br />
                     At: {{ vacancy.company.name }}
                 </li>
             {% endfor %}

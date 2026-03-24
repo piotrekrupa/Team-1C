@@ -1,0 +1,122 @@
+{% extends 'WAD2/base.html' %}
+
+{% block body_block %}
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <span class="badge text-bg-primary mb-3">{{ vacancy.job_type }}</span>
+                    <h1 class="mb-2">{{ vacancy.title }}</h1>
+
+                    <p class="text-muted mb-3">
+                        <strong>Company:</strong> {{ vacancy.company.name }}
+                    </p>
+
+                    <p>
+                        <strong>Average Rating:</strong>
+                        {% if average_rating %}
+                            {{ average_rating|floatformat:1 }} / 5
+                        {% else %}
+                            No ratings yet
+                        {% endif %}
+                    </p>
+
+                    {% if average_rating %}
+                        <p style="font-size: 1.5rem; color: gold;">
+                            {% if average_rating >= 1 %}★{% else %}☆{% endif %}
+                            {% if average_rating >= 2 %}★{% else %}☆{% endif %}
+                            {% if average_rating >= 3 %}★{% else %}☆{% endif %}
+                            {% if average_rating >= 4 %}★{% else %}☆{% endif %}
+                            {% if average_rating >= 5 %}★{% else %}☆{% endif %}
+                        </p>
+                    {% endif %}
+                    </p>
+
+                    {% if user.is_authenticated %}
+                        <form method="post" class="mb-3">
+                            {% csrf_token %}
+                            {{ rating_form.as_p }}
+                            <button type="submit" name="rating_submit" class="btn btn-warning">
+                                Submit Rating
+                            </button>
+                        </form>
+
+                        {% if user_rating %}
+                            <p class="text-muted">Your rating: {{ user_rating.value }} / 5</p>
+                        {% endif %}
+                    {% else %}
+                        <p><a href="{% url 'forum:login' %}">Login</a> to rate this listing.</p>
+                    {% endif %}
+
+                    <div class="row mb-3 mt-4">
+                        <div class="col-md-6">
+                            <p><strong>Location:</strong> {{ vacancy.location|default:"Not specified" }}</p>
+                            <p><strong>Industry:</strong> {{ vacancy.industry|default:"Not specified" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Deadline:</strong> {{ vacancy.deadline|default:"Not specified" }}</p>
+                            <p><strong>Salary:</strong> {{ vacancy.salary|default:"Not specified" }}</p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5>Description</h5>
+                    <p>{{ vacancy.description }}</p>
+
+                    {% if vacancy.url %}
+                        <a href="{{ vacancy.url }}" class="btn btn-success mt-3" target="_blank">
+                            Apply Now
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-body p-4">
+                    <h4 class="mb-4">Comments</h4>
+
+                    {% if user.is_authenticated %}
+                        <form method="post" class="mb-4">
+                            {% csrf_token %}
+                            {{ comment_form.as_p }}
+                            <button type="submit" name="comment_submit" class="btn btn-primary">
+                                Post Comment
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-light border">
+                            <a href="{% url 'forum:login' %}">Login</a> to post a comment.
+                        </div>
+                    {% endif %}
+
+                    {% for comment in comments %}
+                        <div class="border rounded p-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong>{{ comment.user.username }}</strong>
+                                <small class="text-muted">{{ comment.created_at|date:"d M Y, H:i" }}</small>
+                            </div>
+                            <p class="mb-0">{{ comment.text }}</p>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted mb-0">No comments yet.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h5>Quick Info</h5>
+                    <p><strong>Type:</strong> {{ vacancy.job_type }}</p>
+                    <p><strong>Company:</strong> {{ vacancy.company.name }}</p>
+                    <p><strong>Location:</strong> {{ vacancy.location|default:"Not specified" }}</p>
+                    <p><strong>Deadline:</strong> {{ vacancy.deadline|default:"Not specified" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

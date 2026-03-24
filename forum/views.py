@@ -1,7 +1,9 @@
 from .models import Profile
-from .models import Company, Vacancy
-from .forms import ListingForm, SignUpForm
+from .models import Company, Vacancy, Comment , Rating
+from .forms import VacancyForm, SignUpForm
 from django.contrib.auth.models import User
+from .forms import CommentForm, RatingForm
+from django.db.models import Avg
 
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
@@ -20,12 +22,12 @@ def home(request):
 
 def upload(request):
     if request.method == 'POST':
-        form = ListingForm(request.POST)
+        form = VacancyForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('forum:home')
     else:
-        form = ListingForm()
+        form = VacancyForm()
     return render(request, "WAD2/upload.html", {'form': form})
 
 def user_login(request):
@@ -84,13 +86,60 @@ def job_list(request):
     vacancies = Vacancy.objects.filter(job_type='entry_level')
     return render(request, "WAD2/jobs.html", {'vacancies': vacancies})
 
-def internship(request, internship_name):
-    vacancy = get_object_or_404(Vacancy, slug=internship_name)
+"""
+def internship(request, internship_name_slug):
+    vacancy = get_object_or_404(Vacancy, slug=internship_name_slug)
     return render(request, 'WAD2/internship.html', {'vacancy': vacancy})
 
-def job(request, job_name):
-    vacancy = get_object_or_404(Vacancy, slug=job_name)
+def job(request, job_name_slug):
+    vacancy = get_object_or_404(Vacancy, slug=job_name_slug)
     return render(request, "WAD2/job.html", {'vacancy': vacancy})
+"""
+# replaced with one function
+def vacancy_detail(request, slug):
+    vacancy = get_object_or_404(Vacancy, slug=slug)
+    comments = vacancy.comments.order_by('-created_at')
+    comment_form = CommentForm()
+    rating_form = RatingForm()
+
+    user_rating = None
+    average_rating = vacancy.ratings.aggregate(avg=Avg('value'))['avg']
+
+    if request.user.is_authenticated:
+        user_rating = Rating.objects.filter(vacancy=vacancy, user=request.user).first()
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('forum:login')
+
+        if 'comment_submit' in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.vacancy = vacancy
+                comment.user = request.user
+                comment.save()
+                return redirect('forum:vacancy', slug=vacancy.slug)
+
+        elif 'rating_submit' in request.POST:
+            rating_form = RatingForm(request.POST)
+            if rating_form.is_valid():
+                value = rating_form.cleaned_data['value']
+                Rating.objects.update_or_create(
+                    vacancy=vacancy,
+                    user=request.user,
+                    defaults={'value': value}
+                )
+                return redirect('forum:vacancy', slug=vacancy.slug)
+
+    return render(request, 'WAD2/vacancy.html', {
+        'vacancy': vacancy,
+        'comments': comments,
+        'comment_form': comment_form,
+        'rating_form': rating_form,
+        'user_rating': user_rating,
+        'average_rating': average_rating,
+    })
 
 def show_company(request, company_name_slug):
     context_dict = {}
