@@ -109,11 +109,12 @@ def profile_user(request, username):
 
 
 def internship_list(request):
-    vacancies = Vacancy.objects.filter(job_type='internship')
-    return render(request, 'WAD2/internships.html', {'vacancies': vacancies})
+    vacancies = Vacancy.objects.filter(job_type='Internship')
+    return render(request, "WAD2/internships.html", {'vacancies': vacancies})
+
 
 def job_list(request):
-    vacancies = Vacancy.objects.filter(job_type='entry_level')
+    vacancies = Vacancy.objects.filter(job_type='Job')
     return render(request, "WAD2/jobs.html", {'vacancies': vacancies})
 
 """
