@@ -1,4 +1,4 @@
-from .models import Profile
+from .models import Profile, ProfileComment
 from .models import Company, Vacancy, Comment , Rating
 from .forms import VacancyForm, SignUpForm
 from django.contrib.auth.models import User
@@ -62,9 +62,29 @@ def user_logout(request):
 def profile_me(request):
     if not request.user.is_authenticated:
         return redirect('forum:home')
-    profile = Profile.objects.get(user=request.user)
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        if 'profile_picture' in request.FILES:
+            profile.profile_picture = request.FILES['profile_picture']
+            profile.save()
+            return redirect('forum:profile_me')
+        
+        if 'cv' in request.FILES:
+            uploaded_cv = request.FILES['cv']
+            if uploaded_cv.name.endswith('.pdf'):
+                profile.cv = uploaded_cv
+                profile.save()
+            return redirect('forum:profile_me')
+        
+        content = request.POST.get("content")
+        if content:
+            ProfileComment.objects.create(author=request.user, profile=profile, content=content)
+            return redirect('forum:profile_me')
     
-    return render(request, "WAD2/profile_me.html", {"profile": profile})
+    comments = profile.comments_received.all()
+
+    return render(request, "WAD2/profile_me.html", {"profile": profile, "comments": comments})
 
 def profile_user(request, username):
     try:
@@ -73,7 +93,17 @@ def profile_user(request, username):
     except Profile.DoesNotExist:
         return HttpResponse("Profile not found", status=404)
     
-    return render(request, "WAD2/profile_user.html", {"profile": profile})
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            content = request.POST.get("content")
+            if content:
+                ProfileComment.objects.create(author=request.user, profile=profile, content=content)
+                return redirect('forum:profile_user', username=username)
+    
+    comments = profile.comments_received.all()
+
+    return render(request, "WAD2/profile_user.html", {"profile": profile, "comments": comments})
+    
 
 
 
