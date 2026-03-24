@@ -13,6 +13,14 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
+class ProfileComment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments_written')
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='comments_received')
+    content = models.TextField()
+
+    def __str__(self):
+        return f"Comment by {self.author.username} on {self.profile.user.username}'s profile"
+    
 class Company(models.Model):
     name = models.CharField(max_length=128, unique=True)
     description = models.TextField()
