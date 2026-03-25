@@ -60,7 +60,7 @@ def user_logout(request):
 def profile_me(request):
     if not request.user.is_authenticated:
         return redirect('forum:home')
-    profile = Profile.objects.get(user=request.user)
+    profile, created =Profile.objects.get_or_create(user=request.user)
     
     return render(request, "WAD2/profile_me.html", {"profile": profile})
 
