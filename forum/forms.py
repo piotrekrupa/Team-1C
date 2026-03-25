@@ -1,19 +1,13 @@
 from django import forms
-from .models import Vacancy, Comment, Rating, Company
+from .models import Vacancy, Comment, Rating
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 class VacancyForm(forms.ModelForm):
-
-    company_name = forms.CharField(max_length=128, label="Company", 
-        widget=forms.TextInput(attrs={
-            'class': 'form-control upload-input', 
-            'placeholder': 'Company Name'
-        })
-    )
     class Meta:
         model = Vacancy
         fields = [
+            'company',
             'title',
             'description',
             'industry',
@@ -24,6 +18,7 @@ class VacancyForm(forms.ModelForm):
             'location',
         ]
         widgets = {
+            'company': forms.Select(attrs={'class': 'form-control'}),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'industry': forms.TextInput(attrs={'class': 'form-control'}),
@@ -33,14 +28,8 @@ class VacancyForm(forms.ModelForm):
             'url': forms.URLInput(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
         }
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        c_name = self.cleaned_data.get('company_name')
-        company_obj, _ = Company.objects.get_or_create(name=c_name)
-        instance.company = company_obj
-        if commit:
-            instance.save()
-        return instance
+
+
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)

@@ -13,7 +13,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.db.models import Q
 
 # Create your views here.
 
@@ -183,25 +182,22 @@ def show_company(request, company_name_slug):
         context_dict['company'] = None
     return render(request, 'WAD2/company.html', context=context_dict)
 
-def show_vacancy(request, vacancy_name_slug):
-    context_dict = {}
-    try:
-        vacancy = Vacancy.objects.get(slug=vacancy_name_slug)
-        context_dict['vacancy'] = vacancy
-    except Vacancy.DoesNotExist:
-        context_dict['vacancy'] = None
-    if vacancy and vacancy.job_type == 'Internship':
-        return render(request, 'WAD2/internship.html', context_dict)
-    return render(request, 'WAD2/job.html', context_dict)
+# def show_vacancy(request, vacancy_name_slug):
+#     context_dict = {}
+#     try:
+#         vacancy = Vacancy.objects.get(slug=vacancy_name_slug)
+#         context_dict['vacancy'] = vacancy
+#     except Vacancy.DoesNotExist:
+#         context_dict['vacancy'] = None
+#     if vacancy and vacancy.job_type == 'Internship':
+#         return render(request, 'WAD2/internship.html', context_dict)
+#     return render(request, 'WAD2/job.html', context_dict)
 
 def search(request):
-    query = request.GET.get('query', '')
     result_list = []
-
-    if query:
-        result_list = Vacancy.objects.filter(title__icontains=query)
-
-    return render(request, 'WAD2/search_results.html', {
-        'query': query,
-        'result_list': result_list,
-    })
+    query = ''
+    if request.method == 'POST':
+        query = request.POST['query'].strip() 
+        if query:
+            result_list = Vacancy.objects.filter(title__icontains=query)
+    return render(request, 'WAD2/search_results.html', {'result_list': result_list,'query': query})
