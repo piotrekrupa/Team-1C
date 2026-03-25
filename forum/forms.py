@@ -27,7 +27,7 @@ class VacancyForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'industry': forms.TextInput(attrs={'class': 'form-control'}),
-            'job_type': forms.TextInput(attrs={'class': 'form-control'}),
+            'job_type': forms.Select(attrs={'class': 'form-control'}),
             'salary': forms.TextInput(attrs={'class': 'form-control'}),
             'deadline': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'url': forms.URLInput(attrs={'class': 'form-control'}),
