@@ -12,8 +12,14 @@ urlpatterns = [
     path("logout/", views.user_logout, name="logout"),
     path("internships/", views.internship_list, name="internships"),
     path("jobs/", views.job_list, name="jobs"),
-    path("internships/<slug:internship_name>/", views.internship, name="internship"),
-    path("jobs/<slug:job_name>/", views.job, name="job"),
+<<<<<<< HEAD
+    #path("internships/<str:internship_name>/", views.internship, name="internship"),
+    #path("jobs/<str:job_name>/", views.job, name="job"),
+    path('vacancy/<slug:slug>/', views.vacancy_detail, name='vacancy'),
+=======
+    path('internships/<str:internship_name_slug>/', views.internship, name='internship'),
+    path('jobs/<str:job_name_slug>/', views.job, name='job'),
+>>>>>>> a11e0c4 (Add population script and fix vacancy pages)
     path('profile/me/', views.profile_me, name='profile_me'),
     path('profile/<str:username>/', views.profile_user, name='profile_user'),
 

@@ -13,6 +13,14 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
+class ProfileComment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments_written')
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='comments_received')
+    content = models.TextField()
+
+    def __str__(self):
+        return f"Comment by {self.author.username} on {self.profile.user.username}'s profile"
+    
 class Company(models.Model):
     name = models.CharField(max_length=128, unique=True)
     description = models.TextField()
@@ -56,3 +64,34 @@ class Vacancy(models.Model):
     def __str__(self):
         return self.title
 
+class Listing(models.Model):
+    title = models.CharField(max_length=128)
+    company = models.CharField(max_length=128)
+    description = models.TextField()
+
+    def __str__(self):
+        return f"{self.title} at {self.company}"
+    
+
+
+class Comment(models.Model):
+    vacancy = models.ForeignKey('Vacancy', on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} on {self.vacancy.title}"
+    
+
+
+class Rating(models.Model):
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='ratings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    value = models.IntegerField(default=0)
+    
+    class Meta:
+        unique_together = ('vacancy', 'user')
+
+    def __str__(self):
+        return f"{self.vacancy.title} - {self.value} stars by {self.user.username}"
