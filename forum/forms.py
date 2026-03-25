@@ -28,14 +28,8 @@ class VacancyForm(forms.ModelForm):
             'url': forms.URLInput(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
         }
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        c_name = self.cleaned_data.get('company_name')
-        company_obj, _ = Company.objects.get_or_create(name=c_name)
-        instance.company = company_obj
-        if commit:
-            instance.save()
-        return instance
+
+
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
