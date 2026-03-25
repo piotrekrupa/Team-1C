@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField()),
             ],
         ),
-        migrations.DeleteModel(
-            name='Review',
-        ),
+        # migrations.DeleteModel(
+        #     name='Review',
+        # ),
     ]
