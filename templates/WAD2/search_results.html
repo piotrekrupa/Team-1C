@@ -2,26 +2,42 @@
 {% load static %}
 
 {% block body_block %}
-<div class="container mt-5">
-    <h2>Search Results</h2>
-    {% if query %}
-        <p>Showing results for: <strong>{{query}}</strong></p>
+<div class="container py-5">
+    <div class="page-header mb-5">
+        <h1 class="page-title">Search Results</h1>
+        {% if query %}
+            <p class="page-subtitle">Showing results for: <strong>{{query}}</strong></p>
         {% if result_list %}
-            <div class="row">
+            <div class="row g-4 mt-2">
                 {% for vacancy in result_list %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <div class="card-body">
-                                <h5 class="card-title">{{vacancy.title}}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">{{vacancy.company.name}}</h6>
-                                <p class="card-text">
-                                    <strong>{{vacancy.location}}</strong><br>
-                                    {{ vacancy.description | truncatechars:100 }}
+                    <div class="col-md-6">
+                        <div class="listing-card h-100">
+                            <div class="listing-card-body">
+                                <div class="listing-top">
+                                    <span class="listing-badge">{{ vacancy.job_type|default:"Job" }}</span>
+                                </div>
+                                <h3 class="listing-title">
+                                    <a href="{% url 'forum:vacancy' vacancy.slug %}" class="listing-link">
+                                        {{ vacancy.title }}
+                                    </a>
+                                </h3>
+                                <div class="listing-info">
+                                    <p><strong>Company:</strong> {{ vacancy.company.name }}</p>
+                                    <p><strong>Location:</strong> {{ vacancy.location|default:"Not specified" }}</p>
+                                    <p><strong>Deadline:</strong> {{ vacancy.deadline|default:"Not specified" }}</p>
+                                </div>
+                                <p class="listing-meta mb-3">
+                                    <strong>Rating:</strong> {{ vacancy.average_rating }}/5
+                                    ({{ vacancy.rating_count }} review{{ vacancy.rating_count|pluralize }})
                                 </p>
-                                <a href="{% url 'forum:vacancy' vacancy.slug %}" class="btn btn-primary">Details</a>
+                                <div class="listing-actions">
+                                    <a href="{% url 'forum:vacancy' vacancy.slug %}" class="btn btn-primary details-btn">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
         {% else %}
             <div class="alert alert-warning">
