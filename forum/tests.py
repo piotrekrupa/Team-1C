@@ -28,8 +28,6 @@ class ForumTests(TestCase):
         user = User.objects.create_user(username="test", password="webappdev2")
         profile = Profile.objects.create(user=user, full_name="Testing")
         self.assertEqual(profile.user.username, "test")
-
-
 class ForumViewTests(TestCase):
     def setUp(self):
         self.client= Client()
@@ -70,3 +68,40 @@ class ForumFunctionalTests(TestCase):
     def test_empty_search_behavior(self):
         response = self.client.get(reverse('forum:search'), {'query': ''})
         self.assertContains(response, "Please enter a search term")
+
+class LocationTests(TestCase):
+    def setUp(self):
+        self.company = Company.objects.create(name="Test Corp",description="A test company")
+    def test_vacancy_model_saves_location(self):
+        v = Vacancy.objects.create(
+            company=self.company,
+            title="Software Engineer",
+            job_type="internship",
+            location="University of Glasgow, G11 8QQ"
+        )
+        saved_v = Vacancy.objects.get(id=v.id)
+        self.assertEqual(saved_v.location, "University of Glasgow, G11 8QQ")
+    def test_upload_savingView(self):
+        url = reverse('forum:upload')
+        data = {
+            'company': self.company.id,
+            'title': 'Map Designer',
+            'description': 'Working with Leaflet.',
+            'job_type': 'entry_level',
+            'location': 'George Square, Glasgow',
+        }
+        response = self.client.post(url, data)
+        self.assertTrue(Vacancy.objects.filter(title='Map Designer').exists())
+        v = Vacancy.objects.get(title='Map Designer')
+        self.assertEqual(v.location, 'George Square, Glasgow')
+
+    def test_results_location(self):
+        Vacancy.objects.create(
+            company=self.company,
+            title="Python Intern",
+            job_type="internship",
+            location="Remote"
+        )
+        url = reverse('forum:search')
+        response = self.client.get(url, {'query': 'Python'})
+        self.assertContains(response, "Remote")

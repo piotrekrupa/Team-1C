@@ -4,21 +4,21 @@
 {% block body_block %}
 <div class="container mt-5">
     <h2>Search Results</h2>
-    
     {% if query %}
-        <p>Showing results for: <strong>{{ query }}</strong></p>
-        <hr>
-        
+        <p>Showing results for: <strong>{{query}}</strong></p>
         {% if result_list %}
             <div class="row">
                 {% for vacancy in result_list %}
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 shadow-sm">
                             <div class="card-body">
-                                <h5 class="card-title">{{ vacancy.title }}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">{{ vacancy.company.name }}</h6>
-                                <p class="card-text">{{ vacancy.description | truncatechars:100 }}</p>
-                                <a href="{% url 'forum:vacancy' vacancy.slug %}" class="btn btn-outline-primary">View Details</a>
+                                <h5 class="card-title">{{vacancy.title}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{vacancy.company.name}}</h6>
+                                <p class="card-text">
+                                    <strong>{{vacancy.location}}</strong><br>
+                                    {{ vacancy.description | truncatechars:100 }}
+                                </p>
+                                <a href="{% url 'forum:vacancy' vacancy.slug %}" class="btn btn-outline-primary">View details</a>
                             </div>
                         </div>
                     </div>
@@ -26,14 +26,12 @@
             </div>
         {% else %}
             <div class="alert alert-warning">
-                No vacancies found matching "{{query}}". Try a different keyword!
+                No vacancies found matching "{{query}}"!
             </div>
         {% endif %}
-        
     {% else %}
-        <p>Please enter a search term in the search bar above.</p>
+        <p>"Please enter a search term"</p>
     {% endif %}
-    
-    <a href="{% url 'forum:home' %}" class="btn btn-secondary mt-3">Back to Home</a>
+    <a href="{% url 'forum:home' %}" class="btn btn-secondary mt-3">Home</a>
 </div>
 {% endblock %}
