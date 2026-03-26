@@ -18,8 +18,7 @@
                                     <strong>{{vacancy.location}}</strong><br>
                                     {{ vacancy.description | truncatechars:100 }}
                                 </p>
-                                <a href="{% url 'forum:vacancy' vacancy.slug %}" class="btn btn-outline-primary">View details</a>
-                            </div>
+                                <a href="{% url 'forum:vacancy' vacancy.slug %}" class="btn btn-primary">Details</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -30,8 +29,7 @@
             </div>
         {% endif %}
     {% else %}
-        <p>"Please enter a search term"</p>
+        <p>Enter a valid term</p>
     {% endif %}
-    <a href="{% url 'forum:home' %}" class="btn btn-secondary mt-3">Home</a>
 </div>
 {% endblock %}

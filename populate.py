@@ -48,7 +48,7 @@ def populate():
                     "title": "Software Engineering Intern",
                     "description": "Support the development of internship search and analytics features for students and early-career applicants.",
                     "salary": "2500",
-                    "location": "Bristol",
+                    "location": "24-2 Burghley Rd,St Andrew's, Bristol",
                     "days_until_deadline": 30,
                     "url": "https://app.the-trackr.com/uk-technology/summer-internships",
                     "job_type": "Internship",

@@ -67,7 +67,7 @@ class ForumFunctionalTests(TestCase):
 
     def test_empty_search_behavior(self):
         response = self.client.get(reverse('forum:search'), {'query': ''})
-        self.assertContains(response, "Please enter a search term")
+        self.assertContains(response, "Enter a valid term")
 
 class LocationTests(TestCase):
     def setUp(self):
