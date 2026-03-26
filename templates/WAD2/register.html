@@ -1,13 +1,19 @@
 {% extends 'WAD2/base.html' %}
 
 {% block body_block %}
-<h2>Register</h2>
-
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
-
-<p>Already have an account? <a href="{% url 'forum:login' %}">Login</a></p>
+<div class="container mt-5 mb-5">
+    <div class="auth-card shadow-lg">
+        <h2 class="text-center mb-4 text-primary fw-bold">Register</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Create Account</button>
+            </div>
+        </form>
+        
+        <p class="text-center mt-4 mb-0">Have an account?<a href="{% url 'forum:login' %}">Log in here</a></p>
+    </div>
+</div>
 {% endblock %}
