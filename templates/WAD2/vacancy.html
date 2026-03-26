@@ -1,122 +1,152 @@
 {% extends 'WAD2/base.html' %}
 
 {% block body_block %}
-<div class="container py-5">
+<div class="container py-5 vacancy-page">
     <div class="row g-4">
-        <div class="col-lg-8">
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <span class="badge text-bg-primary mb-3">{{ vacancy.job_type }}</span>
-                    <h1 class="mb-2 text-dark">{{ vacancy.title }}</h1>
 
-                    <p class="text-muted mb-3">
+        <!-- LEFT SIDE -->
+        <div class="col-lg-8">
+
+            <!-- MAIN INFO -->
+            <div class="listing-card mb-4">
+                <div class="listing-card-body">
+
+                    <h1 class="listing-title mb-2">{{ vacancy.title }}</h1>
+
+                    <p class="listing-meta mb-2">
                         <strong>Company:</strong> {{ vacancy.company.name }}
                     </p>
 
-                    <p>
-                        <strong>Average Rating:</strong>
-                        {% if average_rating %}
-                            {{ average_rating|floatformat:1 }} / 5
-                        {% else %}
-                            No ratings yet
-                        {% endif %}
+                    <span class="listing-badge mb-3">{{ vacancy.job_type }}</span>
+
+                    <p class="listing-meta">
+                        <strong>Location:</strong> {{ vacancy.location|default:"Not specified" }}
                     </p>
 
-                    {% if average_rating %}
-                        <p style="font-size: 1.5rem; color: gold;">
-                            {% if average_rating >= 1 %}★{% else %}☆{% endif %}
-                            {% if average_rating >= 2 %}★{% else %}☆{% endif %}
-                            {% if average_rating >= 3 %}★{% else %}☆{% endif %}
-                            {% if average_rating >= 4 %}★{% else %}☆{% endif %}
-                            {% if average_rating >= 5 %}★{% else %}☆{% endif %}
-                        </p>
-                    {% endif %}
+                    <p class="listing-meta">
+                        <strong>Salary:</strong> {{ vacancy.salary|default:"Not specified" }}
                     </p>
 
-                    {% if user.is_authenticated %}
-                        <form method="post" class="mb-3">
-                            {% csrf_token %}
-                            {{ rating_form.as_p }}
-                            <button type="submit" name="rating_submit" class="btn btn-warning">
-                                Submit Rating
-                            </button>
-                        </form>
+                    <p class="listing-meta">
+                        <strong>Deadline:</strong> {{ vacancy.deadline|default:"Not specified" }}
+                    </p>
 
-                        {% if user_rating %}
-                            <p class="text-muted">Your rating: {{ user_rating.value }} / 5</p>
-                        {% endif %}
-                    {% else %}
-                        <p><a href="{% url 'forum:login' %}">Login</a> to rate this listing.</p>
-                    {% endif %}
+                    <p class="listing-meta mb-4">
+                        <strong>Average Rating:</strong> {{ average_rating|default:"0"|floatformat:1 }}/5
+                        ({{ review_count }} review{{ review_count|pluralize }})
+                    </p>
 
-                    <div class="row mb-3 mt-4">
-                        <div class="col-md-6">
-                            <p><strong>Location:</strong> {{ vacancy.location|default:"Not specified" }}</p>
-                            <p><strong>Industry:</strong> {{ vacancy.industry|default:"Not specified" }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Deadline:</strong> {{ vacancy.deadline|default:"Not specified" }}</p>
-                            <p><strong>Salary:</strong> {{ vacancy.salary|default:"Not specified" }}</p>
-                        </div>
-                    </div>
+                    <hr class="comment-divider">
 
-                    <hr>
-
-                    <h5>Description</h5>
-                    <p>{{ vacancy.description }}</p>
+                    <h3 class="mb-3">Job Description</h3>
+                    <p class="listing-meta">{{ vacancy.description }}</p>
 
                     {% if vacancy.url %}
-                        <a href="{{ vacancy.url }}" class="btn btn-primary" target="_blank">
+                        <a href="{{ vacancy.url }}" target="_blank" class="btn btn-primary mt-3">
                             Apply Now
                         </a>
                     {% endif %}
+
                 </div>
             </div>
 
-            <div class="card shadow-sm border-0 mt-4">
-                <div class="card-body p-4">
-                    <h4 class="mb-4 text-dark">Comments</h4>
+
+
+            <!-- COMMENTS -->
+            <div class="listing-card mb-4">
+                <div class="listing-card-body">
+                    <h3 class="mb-3">Comments</h3>
 
                     {% if user.is_authenticated %}
-                        <form method="post" class="mb-4">
+                        <form method="post">
                             {% csrf_token %}
-                            {{ comment_form.as_p }}
+                            <textarea name="text" class="form-control comment-textarea mb-3"
+                                placeholder="Write your comment..."></textarea>
+
                             <button type="submit" name="comment_submit" class="btn btn-primary">
                                 Post Comment
                             </button>
                         </form>
                     {% else %}
-                        <div class="alert alert-light border">
-                            <a href="{% url 'forum:login' %}">Login</a> to post a comment.
-                        </div>
+                        <p class="listing-meta mb-3">Please log in to leave a comment.</p>
                     {% endif %}
 
+                    <hr class="comment-divider">
+
                     {% for comment in comments %}
-                        <div class="border rounded p-3 mb-3">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <strong>{{ comment.user.username }}</strong>
-                                <small class="text-muted">{{ comment.created_at|date:"d M Y, H:i" }}</small>
-                            </div>
+                        <div class="comment-item">
+                            <strong>{{ comment.user.username }}</strong>
+                            <small class="text-muted">
+                                • {{ comment.created_at|date:"M d, Y H:i" }}
+                            </small>
                             <p class="mb-0">{{ comment.text }}</p>
                         </div>
                     {% empty %}
-                        <p class="text-muted mb-0">No comments yet.</p>
+                        <p class="listing-meta mb-0">No comments yet.</p>
                     {% endfor %}
                 </div>
             </div>
+
         </div>
 
+        <!-- RIGHT SIDE -->
         <div class="col-lg-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <h5>Quick Info</h5>
-                    <p><strong>Type:</strong> {{ vacancy.job_type }}</p>
-                    <p><strong>Company:</strong> {{ vacancy.company.name }}</p>
-                    <p><strong>Location:</strong> {{ vacancy.location|default:"Not specified" }}</p>
-                    <p><strong>Deadline:</strong> {{ vacancy.deadline|default:"Not specified" }}</p>
+            <div class="listing-card vacancy-sidebar-card">
+                <div class="listing-card-body">
+                    <h3 class="mb-3">Quick Info</h3>
+                    <p class="listing-meta"><strong>Type:</strong> {{ vacancy.job_type }}</p>
+                    <p class="listing-meta"><strong>Company:</strong> {{ vacancy.company.name }}</p>
+                    <p class="listing-meta"><strong>Location:</strong> {{ vacancy.location|default:"Not specified" }}</p>
+                    <p class="listing-meta"><strong>Deadline:</strong> {{ vacancy.deadline|default:"Not specified" }}</p>
                 </div>
             </div>
+
+
+
+        <!--  RATING  -->
+        <div class="listing-card mt-4">
+            <div class="listing-card-body">
+                <h3 class="mb-3">Rate this {{ vacancy.job_type|lower }}</h3>
+
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'forum:rate_vacancy' vacancy.slug %}">
+                        {% csrf_token %}
+                        <div class="rating-stars">
+                            <button type="submit" name="value" value="1" class="star-btn">★</button>
+                            <button type="submit" name="value" value="2" class="star-btn">★</button>
+                            <button type="submit" name="value" value="3" class="star-btn">★</button>
+                            <button type="submit" name="value" value="4" class="star-btn">★</button>
+                            <button type="submit" name="value" value="5" class="star-btn">★</button>
+                        </div>
+                    </form>
+
+                    {% if user_rating %}
+                        <p class="listing-meta mt-3 mb-0">
+                            Your rating: {{ user_rating.value }}/5
+                        </p>
+                    {% endif %}
+                {% else %}
+                    <p class="listing-meta mb-0">Please log in to rate this vacancy.</p>
+                {% endif %}
+            </div>
+        </div>
         </div>
     </div>
+
+
+
+    <!-- BACK BUTTON -->
+    <div class="mt-4">
+        {% if vacancy.job_type == "Internship" %}
+            <a href="{% url 'forum:internships' %}" class="btn btn-outline-secondary">
+                ← Back to Internships
+            </a>
+        {% else %}
+            <a href="{% url 'forum:jobs' %}" class="btn btn-outline-secondary">
+                ← Back to Jobs
+            </a>
+        {% endif %}
+    </div>
+
 </div>
 {% endblock %}

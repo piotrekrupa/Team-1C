@@ -132,10 +132,10 @@ def vacancy_detail(request, slug):
     comments = vacancy.comments.order_by('-created_at')
     comment_form = CommentForm()
     rating_form = RatingForm()
+    review_count = vacancy.ratings.count()
 
     user_rating = None
     average_rating = vacancy.ratings.aggregate(avg=Avg('value'))['avg']
-
     if request.user.is_authenticated:
         user_rating = Rating.objects.filter(vacancy=vacancy, user=request.user).first()
 
@@ -170,6 +170,7 @@ def vacancy_detail(request, slug):
         'rating_form': rating_form,
         'user_rating': user_rating,
         'average_rating': average_rating,
+        'review_count': review_count,
     })
 
 def show_company(request, company_name_slug):
@@ -199,3 +200,24 @@ def search(request):
     if query:
         result_list = Vacancy.objects.filter(title__icontains=query)
     return render(request, 'WAD2/search_results.html', {'result_list': result_list, 'query': query})
+
+
+@login_required
+def rate_vacancy(request, slug):
+    vacancy = get_object_or_404(Vacancy, slug=slug)
+
+    if request.method == "POST":
+        value = int(request.POST.get("value"))
+
+        if 1 <= value <= 5:
+            rating, created = Rating.objects.get_or_create(
+                vacancy=vacancy,
+                user=request.user,
+                defaults={'value': value}
+            )
+
+            if not created:
+                rating.value = value
+                rating.save()
+
+    return redirect('forum:vacancy', slug=vacancy.slug)

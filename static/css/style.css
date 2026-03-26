@@ -156,3 +156,239 @@ h1, h2, h3, h4, .text-primary, .lead {
     background-color: var(--accent-primary);
     color: var(--bg-primary);
 }
+
+
+.page-header {
+    margin-bottom: 2.5rem;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+.listing-card {
+    background: linear-gradient(180deg, #002244 0%, #00172d 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    overflow: hidden;
+}
+
+.listing-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(243, 227, 8, 0.35);
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.35);
+}
+
+.listing-card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.listing-top {
+    margin-bottom: 1rem;
+}
+
+.listing-badge {
+    display: inline-block;
+    background-color: rgba(243, 227, 8, 0.14);
+    color: var(--accent-primary);
+    border: 1px solid rgba(243, 227, 8, 0.35);
+    border-radius: 999px;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.listing-title {
+    font-size: 1.7rem;
+    font-weight: 750;
+    line-height: 1.25;
+    margin-bottom: 1.2rem;
+}
+
+.listing-link {
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.listing-link:hover {
+    color: var(--accent-primary);
+    text-decoration: none;
+}
+
+.listing-info {
+    margin-bottom: 1.5rem;
+}
+
+.listing-info p {
+    margin-bottom: 0.7rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.listing-info strong {
+    color: var(--text-primary);
+}
+
+.listing-actions {
+    margin-top: auto;
+}
+
+.details-btn {
+    width: auto;
+    min-width: 160px;
+    border-radius: 12px !important;
+    padding: 0.75rem 1.2rem !important;
+    display: inline-block;
+}
+
+.empty-state {
+    background-color: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+/* Star buttons */
+.rating-stars {
+    display: flex;
+    gap: 8px;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: #facc15; 
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+
+.star-btn:hover {
+    transform: scale(1.2);
+    color: #fbbf24; 
+}
+
+
+.comment-textarea {
+    background-color: var(--bg-primary) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: var(--text-primary) !important;
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    resize: vertical;
+    min-height: 120px;
+}
+
+.comment-textarea::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.85;
+}
+
+.comment-textarea:focus {
+    background-color: var(--bg-secondary) !important;
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 10px rgba(243, 227, 8, 0.25) !important;
+    color: var(--text-primary) !important;
+}
+
+.comment-divider {
+    border-color: rgba(255, 255, 255, 0.08);
+    margin: 1.5rem 0;
+}
+
+.comment-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.comment-meta {
+    color: var(--text-primary);
+}
+
+.comment-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.comment-text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+
+
+
+.vacancy-page .listing-card {
+    background: #f9fafb !important;
+    color: #111 !important;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+
+.vacancy-page .listing-card-body,
+.vacancy-page .listing-meta,
+.vacancy-page .listing-title,
+.vacancy-page p,
+.vacancy-page strong {
+    color: #111 !important;
+}
+.vacancy-page .listing-card *:not(.star-btn) {
+    color: #111 !important;
+}
+
+
+.vacancy-page .listing-badge {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #111;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+
+.vacancy-page .comment-text {
+    color: #333;
+}
+
+.vacancy-page .comment-date {
+    color: #666;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 8px;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: #facc15 !important; 
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.star-btn:hover {
+    transform: scale(1.2);
+    color: #fbbf24 !important;
+}
