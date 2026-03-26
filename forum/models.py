@@ -40,8 +40,8 @@ class Company(models.Model):
 
 class Vacancy(models.Model):
     JOB_TYPE_CHOICES = [
-        ('entry_level', 'Entry-Level Job'),
-        ('internship', 'Internship'),
+        ('Job', 'Job'),
+        ('Internship', 'Internship'),
     ]
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     title = models.CharField(max_length=128)
