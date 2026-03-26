@@ -195,9 +195,7 @@ def show_company(request, company_name_slug):
 
 def search(request):
     result_list = []
-    query = ''
-    if request.method == 'POST':
-        query = request.POST['query'].strip() 
-        if query:
-            result_list = Vacancy.objects.filter(title__icontains=query)
-    return render(request, 'WAD2/search_results.html', {'result_list': result_list,'query': query})
+    query = request.GET.get('query', '').strip()
+    if query:
+        result_list = Vacancy.objects.filter(title__icontains=query)
+    return render(request, 'WAD2/search_results.html', {'result_list': result_list, 'query': query})
