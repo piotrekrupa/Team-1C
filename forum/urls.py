@@ -19,4 +19,6 @@ urlpatterns = [
     path('search/', views.search, name='search'),
 
     path('company/<slug:company_name_slug>/', views.show_company, name='show_company'),
+    path('vacancy/<slug:slug>/', views.vacancy_detail, name='vacancy'),
+    path('vacancy/<slug:slug>/rate/', views.rate_vacancy, name='rate_vacancy'),
 ]

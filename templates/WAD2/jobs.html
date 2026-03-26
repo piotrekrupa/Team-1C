@@ -1,21 +1,54 @@
 {% extends 'WAD2/base.html' %}
 
 {% block body_block %}
-    <div class="container mt-5">
-        <h1>Available Jobs</h1>
-        <div class="row"> {% for vacancy in vacancies %}
-                <div class="col-md-4 mb-4"> <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">{{vacancy.title}}</h5>
-                            <p><strong>{{ vacancy.location }}</strong></p>
-                            <p>{{vacancy.description|truncatechars:100}}</p>
-                            <a href="{% url 'forum:vacancy' vacancy.slug %}" class="btn btn-primary">Details</a>
+<div class="container py-5">
+    <div class="page-header mb-5">
+        <h1 class="page-title">Available Jobs</h1>
+        <p class="page-subtitle">Find job opportunities and early experience.</p>
+    </div>
+
+    {% if vacancies %}
+        <div class="row g-4">
+            {% for vacancy in vacancies %}
+                <div class="col-md-6">
+                    <div class="listing-card h-100">
+                        <div class="listing-card-body">
+                            <div class="listing-top">
+                                <span class="listing-badge">{{ vacancy.job_type|default:"Job" }}</span>
+                            </div>
+
+                            <h3 class="listing-title">
+                                <a href="{% url 'forum:vacancy' vacancy.slug %}" class="listing-link">
+                                    {{ vacancy.title }}
+                                </a>
+                            </h3>
+
+                            <div class="listing-info">
+                                <p><strong>Company:</strong> {{ vacancy.company.name }}</p>
+                                <p><strong>Location:</strong> {{ vacancy.location|default:"Not specified" }}</p>
+                                <p><strong>Deadline:</strong> {{ vacancy.deadline|default:"Not specified" }}</p>
+                            </div>
+                            
+                            <p class="listing-meta mb-3">
+                                <strong>Rating:</strong> {{ vacancy.average_rating }}/5
+                                ({{ vacancy.rating_count }} review{{ vacancy.rating_count|pluralize }})
+                            </p>
+
+                            <div class="listing-actions">
+                                <a href="{% url 'forum:vacancy' vacancy.slug %}" class="btn btn-primary details-btn">
+                                    View Details
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            {% empty %}
-                <p>No jobs found</p>
             {% endfor %}
         </div>
-    </div>
+    {% else %}
+        <div class="empty-state">
+            <h3>No jobs found</h3>
+            <p>There are no internship listings at the moment.</p>
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

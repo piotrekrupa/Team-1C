@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.db.models import Avg
 
 # Create your models here.
 class Profile(models.Model):
@@ -61,8 +62,12 @@ class Vacancy(models.Model):
     class Meta:
         verbose_name_plural = 'Vacancies'
 
-    def __str__(self):
-        return self.title
+@property
+def average_rating(self):
+    return self.ratings.aggregate(avg=Avg('value'))['avg'] or 0
+@property
+def rating_count(self):
+    return self.ratings.count()
 
 class Listing(models.Model):
     title = models.CharField(max_length=128)
