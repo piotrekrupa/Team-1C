@@ -5,16 +5,18 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="text-center mt-5 mb-4 px-3">
-        <h1 class="display-4 mb-3">Welcome to Forums!</h1>
-        <p class="lead text-muted mb-5">
-            This is the homepage of our website. Here you can find the latest Internships, or Job listings to set you up or proppell you into the transition from graduate to professional. Feel free to share and upload any that you have found to help out fellow students!
-        </p>
-        <p class="lead text-muted mb-5">
-            Which would you like to look for?
-        </p>
+    <div class="container mt-5 mb-5">
+        <div class="text-center px-4 py-5 shadow-lg" style="background-color: var(--bg-secondary); border-radius: 15px; border: 1px solid rgba(255,255,255,0.05);">
+            <h1 class="display-4 fw-bold mb-4 text-primary">Welcome to Forums!</h1>
+            <p class="lead mx-auto mb-4" style="color: var(--text-secondary); max-width: 800px; line-height: 1.8;">
+                This is the homepage of our website. Here you can find the latest Internships or Job listings to set you up or propel you into the transition from graduate to professional. Feel free to share and upload any that you have found to help out fellow students!
+            </p>
+            <h4 class="mt-4" style="color: var(--text-primary);">Which would you like to look for?</h4>
+        </div>
+    </div>
 
-        <div class="row g-0"> <div class="col-12 col-md-6 split-wrapper">
+    <div class="row g-0"> 
+        <div class="col-12 col-md-6 split-wrapper">
             <a href="{% url 'forum:internships' %}" class="split-card internships-card">
                 <span class="card-text">internships</span>
             </a>
