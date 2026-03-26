@@ -14,8 +14,18 @@
                 <form method="post" action="{% url 'forum:upload' %}">
                     {% csrf_token %}
 
+                    {% for field in form %}
+                        {% if field.name != 'location' %}
+                            <div class="mb-3">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
                     <div class="mb-4 p-3 bg-light border rounded">
-                        <label class="fw-bold">Pinpoint Location</label>
+                        <label>Pinpoint Location</label>
                         <div class="input-group mb-2">
                             <input type="text" id="address-search" class="form-control" placeholder="Search city or street...">
                             <button type="button" class="btn btn-secondary" onclick="searchLocation()">Find on Map</button>
@@ -23,7 +33,10 @@
                         <div id="map" style="height: 250px; width: 100%; border-radius: 8px;"></div>
                     </div>
 
-                    {{ form.as_p }} 
+                    <div class="mb-3">
+                        <label>Chosen Location (Address)</label>
+                        {{ form.location }}
+                    </div>
                     
                     <div class="text-center mt-4">
                         <button type="submit" class="btn btn-primary px-5 py-2 fw-bold">Submit Listing</button>
